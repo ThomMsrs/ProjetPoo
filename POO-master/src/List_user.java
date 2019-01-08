@@ -38,7 +38,7 @@ public class List_user {
 				i++;
 			}
 			list_user[i]=new_name;
-			
+			MyLogin.maj_display_list();
 	}
 	
 	

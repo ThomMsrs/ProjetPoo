@@ -93,7 +93,8 @@ public class login implements ActionListener, ListSelectionListener {
 			MyList_user.send_new_name(nom, this.nom);
 			this.nom=nom;	
 		}
-}
+		maj_display_list();
+	}
 	
 	/*
 	public void rename(String nom) {
@@ -311,6 +312,16 @@ public class login implements ActionListener, ListSelectionListener {
 			list.setModel(listmodel);
 		}
 		
+		public void maj_display_list() {
+			listmodel.clear();
+			String[] list_user=MyList_user.get_list_user();
+	    	for(int i=0;i<list_user.length;i++) {
+	    		if(list_user[i]!=null) {
+	    			listmodel.addElement(list_user[i]);
+	    		}
+	    	}
+	    	list.setModel(listmodel);
+		}
     
     
 	
