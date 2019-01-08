@@ -47,7 +47,9 @@ public class List_user {
 	public void maj_list_user(String name) {							// on recoit une nouvelle connexion
 		list_user[nbr_user]=name;
 		nbr_user++;
-		MyLogin.add_element_to_list(name);
+		if(name.equals(MyLogin.get_name())==false){
+			MyLogin.add_element_to_list(name);
+		}
 	}
 	
 	public void maj_list_user_addr(InetAddress addr) {							// on recoit une nouvelle connexion
