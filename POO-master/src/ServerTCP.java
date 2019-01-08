@@ -78,6 +78,7 @@ public class ServerTCP extends Thread{
 						//afficher la session a ete fermée par votre correspondant 
 						ClientTCP MyClientTCP= new ClientTCP(MySessionUsed, MySessionUsed.get_port_dest(),"CLOSE_SESSION2",MySessionUsed.get_addr_dest());
 						MyClientTCP.start();
+						MySessionUsed.remove_panel_session();
 						link.close();
 						flag=0;
 					}

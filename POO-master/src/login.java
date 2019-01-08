@@ -93,7 +93,7 @@ public class login implements ActionListener, ListSelectionListener {
 			MyList_user.send_new_name(nom, this.nom);
 			this.nom=nom;	
 		}
-		maj_display_list();
+		
 	}
 	
 	/*
@@ -313,6 +313,9 @@ public class login implements ActionListener, ListSelectionListener {
 		}
 		
 		public void maj_display_list() {
+			
+			System.out.println("ok ok ok ");
+			
 			listmodel.clear();
 			String[] list_user=MyList_user.get_list_user();
 	    	for(int i=0;i<list_user.length;i++) {

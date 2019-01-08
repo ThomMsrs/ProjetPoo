@@ -4,9 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -77,7 +80,7 @@ public class Session implements ActionListener, ListSelectionListener{
 	}
 	
 	public void fermer_session() {
-		ClientTCP MyClientTCP= new ClientTCP(this, port_dest,"CLOSE_SESSION",addr_dest);
+		ClientTCP MyClientTCP= new ClientTCP(this, port_dest,"CLOSE_SESSION1",addr_dest);
 		MyClientTCP.start();
 	}
 	
@@ -99,6 +102,7 @@ public class Session implements ActionListener, ListSelectionListener{
 		 session_closeButton.addActionListener(this);
 		 
 		session_messageTextField= new JTextField();
+		session_messageTextField.addActionListener( action );
 		
 		/* LABEL POUR LHISTORIQUE ??? */
 		/* si historique afficher un listmodel */
@@ -110,8 +114,12 @@ public class Session implements ActionListener, ListSelectionListener{
     	list_conv.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
     	list_conv.setLayoutOrientation(JList.VERTICAL_WRAP);
     	list_conv.setVisibleRowCount(-1);
-    	JScrollPane listScroller = new JScrollPane(list_conv);
+    	JScrollPane listScroller = new JScrollPane();
     	listScroller.setPreferredSize(new Dimension(150, 40));
+    	listScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    	listScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    	//listScroller.setViewportView(list_conv);
+    	listScroller.add(list_conv);
     	list_conv.addListSelectionListener(this);
 		
 		 pane6 = new JPanel(new GridLayout(0, 1));
@@ -129,19 +137,26 @@ public class Session implements ActionListener, ListSelectionListener{
 	     pane6.setBorder(BorderFactory.createCompoundBorder(
 		            BorderFactory.createTitledBorder("Session with " + name), 
 		            BorderFactory.createEmptyBorder(5,5,5,5)));
+	     JFrame frame;
+	     JFrame.setDefaultLookAndFeelDecorated(true);
+	        
+	        //Create and set up the window.
+	        frame = new JFrame("Agent");
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setContentPane(pane6);
+
+	        //Display the window.
+	        frame.pack();
+	        frame.setVisible(true);
 	     
-	     
-	     MySessions.MyLogin.pane7.add(pane6);
 	     pane6.setVisible(true);
    }
 	
 	
-	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("CLOSE")){
 			fermer_session();
-			MySessions.MyLogin.pane7.remove(pane6);
-			MySessions.MyLogin.pane7.validate();
+			remove_panel_session();
 		}
 		if (event.getActionCommand().equals("SEND")){
 			System.out.println("msg send "  );
@@ -152,6 +167,23 @@ public class Session implements ActionListener, ListSelectionListener{
 		}
 		
 	}
+	
+	public void remove_panel_session() {
+		MySessions.MyLogin.pane7.remove(pane6);
+		MySessions.MyLogin.pane7.validate();
+	}
+	
+	Action action = new AbstractAction()
+	{
+	    public void actionPerformed(ActionEvent e)
+	    {
+	    	System.out.println("msg send "  );
+			listmodel.addElement(MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText());
+			list_conv.setModel(listmodel);
+			envoie_de_message(session_messageTextField.getText());
+			session_messageTextField.setText("");
+	    }
+	};
 
 
 	@Override

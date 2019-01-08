@@ -34,7 +34,7 @@ public class List_user {
 	
 	public void maj_list_user(String old_name, String new_name) {		// on recoit un rename
 			int i=0;
-			while(list_user[i]!=old_name) {
+			while(list_user[i].equals(old_name)!=true) {
 				i++;
 			}
 			list_user[i]=new_name;
@@ -60,6 +60,7 @@ public class List_user {
 	public void send_new_name(String new_name, String old_name) {
 		MyClientUDP= new ClientUDP(1601, new_name + " / " + old_name);			//envoie son blaze et ancien a tt le monde
 		MyClientUDP.start();
+		maj_list_user(old_name, new_name);
 	}
 	
 	public void send_new_name(String new_name) 
