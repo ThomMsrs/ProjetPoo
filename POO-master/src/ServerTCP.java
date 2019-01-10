@@ -4,6 +4,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ServerTCP extends Thread{
 	private int port;
@@ -76,6 +81,7 @@ public class ServerTCP extends Thread{
 					input=in.readLine();
 					if(input.equals("CLOSE_SESSION1")) {
 						//afficher la session a ete fermée par votre correspondant 
+						System.out.println("pq tu fermes mon gar t fou");
 						ClientTCP MyClientTCP= new ClientTCP(MySessionUsed, MySessionUsed.get_port_dest(),"CLOSE_SESSION2",MySessionUsed.get_addr_dest());
 						MyClientTCP.start();
 						MySessionUsed.remove_panel_session();
@@ -86,9 +92,18 @@ public class ServerTCP extends Thread{
 						link.close();
 						flag=0;
 					}
+					System.out.println("pq tu fermes mon gar t fou 22222");
+					SimpleDateFormat date=new SimpleDateFormat("h:mm a");
 					//afficher le message sur la bonne session
-					MySessionUsed.listmodel.addElement(MySessionUsed.get_user_dest() +  " : " + input );
+					MySessionUsed.listmodel.addElement(MySessionUsed.get_user_dest() +  " : " + input + "  	                "  + date.format(new Date()) );
 					MySessionUsed.list_conv.setModel(MySessionUsed.listmodel);
+					try {
+						Statement statement=MySessionUsed.con2.createStatement();
+						ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + MySessionUsed.get_user_dest() + "," + MySessionUsed.get_user_dest() + " : " + input  + "                         " + date.format(new Date()) + ")" );
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 					//ajouter le message a l'historique
 					//MySessionUsed.MySessions.add_to_historique(MySessions.MyLogin.get_name(), MySession.get_user_dest(), input);

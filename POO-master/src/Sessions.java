@@ -2,6 +2,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -29,7 +31,8 @@ public class Sessions implements ActionListener{
 
 	int flag_ask_session=0;
 	
-	
+	Connection con=null;
+
 	
 	
 	
@@ -41,6 +44,19 @@ public class Sessions implements ActionListener{
 		//MyHistorique= new historique();
 		MyServerTCP=new ServerTCP(this,1700);			// permet de savoir si on veut nous contacter pour demarrer une session
 		MyServerTCP.start();
+		
+		
+		
+		try {
+
+		    Class.forName( "com.mysql.jdbc.Driver" );
+
+		} catch ( ClassNotFoundException e ) {
+
+		    /* Gérer les éventuelles erreurs ici. */
+
+		}
+		con = DriverManager.getConnection( /* URL DE LA BASE DE DONNEE SQL */ );
 	}
 	
 	
@@ -63,7 +79,7 @@ public class Sessions implements ActionListener{
 		
 		
 		System.out.println(" ouverture de la session ");
-		Tab_Session[nbrsession]= new Session(this,user_dest,MyLogin.MyList_user.get_addr(user_dest),last_port,Integer.parseInt(port_dest));	
+		Tab_Session[nbrsession]= new Session(this,user_dest,MyLogin.MyList_user.get_addr(user_dest),last_port,Integer.parseInt(port_dest),con);	
 		System.out.println("  session ouverte");
 		
 		
