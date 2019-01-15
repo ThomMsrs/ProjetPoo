@@ -57,6 +57,8 @@ public class Sessions implements ActionListener{
 
 		}
 		con = DriverManager.getConnection( /* URL DE LA BASE DE DONNEE SQL */ );
+		
+		
 	}
 	
 	

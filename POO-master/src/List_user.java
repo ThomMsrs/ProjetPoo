@@ -6,19 +6,31 @@ public class List_user {
 	
 	private String[] list_user;
 	private InetAddress[] list_user_addr;
+	private String[] list_user_state;
 	int nbr_user=0;
 	ClientUDP MyClientUDP;
 	ServerUDP MyServerUDP;
+	ServerTCP MyServerTCP;
+	ClientTCP MyClientTCP;
 	login MyLogin;
+	private int mode;
 	
-	public List_user(login Login) {
+	public List_user(login Login, int mode_connexion) {
+		mode=mode_connexion;
 		System.out.println("ok dans List user");
 		list_user=new  String[100000];
 		list_user_addr=new InetAddress[100000];
 		this.MyLogin=Login;
-		//MyClientUDP= new ClientUDP(1600);
-		MyServerUDP=new ServerUDP(this,1500);
-		MyServerUDP.start();
+		if(mode==1) {
+			MyServerUDP=new ServerUDP(this,1500);
+			MyServerUDP.start();
+		}
+		if(mode==0) {
+			MyClientTCP=new ClientTCP(this,2200);
+			MyClientTCP.start();
+			list_user_state= new String[100000];
+		}
+
 		//creation d'un ClientUDP extends threads qui va envoyer une demande de noms en broadcast
 		//et stocker les resultats dans la list_user
 	}

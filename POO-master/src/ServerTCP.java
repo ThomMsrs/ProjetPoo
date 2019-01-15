@@ -21,6 +21,8 @@ public class ServerTCP extends Thread{
 	int flag=1;
 	
 	
+	
+	
 	public ServerTCP(Sessions sessions,int num_port) {
 		super();
 		System.out.println("ok Serveur TCP");

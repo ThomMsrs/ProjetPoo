@@ -31,6 +31,7 @@ public class login implements ActionListener, ListSelectionListener {
 		private InetAddress MyAddress;	//Mon adresse en inetaddress
 		private String Address;			//Mon adresse en String
 		Agent MyAgent;
+		private int bouttonok=0;
 		
 		JButton Set_nameButton;
 		JTextField Set_nameTextField;
@@ -52,9 +53,11 @@ public class login implements ActionListener, ListSelectionListener {
 		JPanel pane7;
 		
 		
-		public login(Agent MyAgent) {
+		public login(Agent MyAgent, int mode_connexion) {
 			this.MyAgent=MyAgent;
-			windows_set_name();
+			if(mode_connexion==1) {
+				windows_set_name();
+			}
 			try {
 				MyAddress=InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {
@@ -64,7 +67,7 @@ public class login implements ActionListener, ListSelectionListener {
 			Address= MyAddress.toString();
 			System.out.print(Address);
 			System.out.println(" # ");
-			MyList_user= new List_user(this);
+			MyList_user= new List_user(this, mode_connexion);
 		}
 
 	/*
@@ -131,6 +134,9 @@ public class login implements ActionListener, ListSelectionListener {
     	return MyList_user.get_list_user_addr(i);
     }
     
+    public int get_bouttonok() {
+    	return bouttonok;
+    }
     
     //gestion de la connexion 
     
@@ -272,6 +278,7 @@ public class login implements ActionListener, ListSelectionListener {
 	
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("OK")) {
+			bouttonok=1;
 			nom=Set_nameTextField.getText();
 			if(MyList_user.check_name(nom)!=true){
 				Set_nameLabel.setText("Wrong name");

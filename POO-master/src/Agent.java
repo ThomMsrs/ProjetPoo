@@ -13,6 +13,8 @@ public class Agent implements ActionListener{
 	public String staterename;
 	public login MyLogin;
 	
+	private int mode;
+	
 	
 	
 	final static String LOOKANDFEEL = null ;
@@ -20,6 +22,8 @@ public class Agent implements ActionListener{
 	JPanel MainPanel;
 	
 	JButton MainButton;
+	JButton MainButton2;
+	JButton MainButton3;
 	JPanel pane1;
 	JPanel pane2;
 	
@@ -78,8 +82,14 @@ public class Agent implements ActionListener{
 	                10, //bottom
 	                30) //right
 	                );
-	   
-			 MainButton = new JButton("Login");
+			
+			 MainButton = new JButton("Local");
+			 MainButton2= new JButton("Online");
+			 MainButton3=new JButton("Login");
+			 MainButton3.setMnemonic(KeyEvent.VK_I);
+			 MainButton3.addActionListener(this);
+			 MainButton2.setMnemonic(KeyEvent.VK_I);
+			 MainButton2.addActionListener(this);
 			 MainButton.setMnemonic(KeyEvent.VK_I);
 			 MainButton.addActionListener(this);
 			 
@@ -90,6 +100,9 @@ public class Agent implements ActionListener{
 			 
 			 pane1 = new JPanel(new GridLayout(0, 1));
 		     pane1.add(MainButton);
+		     pane1.add(MainButton2);
+		     pane1.add(MainButton3);
+		     MainButton3.setVisible(false);
 		     pane1.setBorder(BorderFactory.createEmptyBorder(
 		                150, //top
 		                150, //left
@@ -102,8 +115,21 @@ public class Agent implements ActionListener{
 		
 	    public void actionPerformed(ActionEvent event) {
 	    	if (event.getActionCommand().equals("Login")){
-				MyLogin = new login(this);
+				MyLogin = new login(this,mode);
 			}	
+	    	if (event.getActionCommand().equals("Local")) {
+	    		MainButton3.setVisible(true);
+	    		MainButton.setVisible(false);
+	    		MainButton2.setVisible(false);
+	    		mode=1;
+	    		
+	    	}
+	    	if (event.getActionCommand().equals("Online")) {
+	    		MainButton3.setVisible(true);
+	    		MainButton.setVisible(false);
+	    		MainButton2.setVisible(false);
+	    		mode=0;
+	    	}
 	    }
 		
 	    
