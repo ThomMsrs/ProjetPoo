@@ -90,10 +90,19 @@ public class login implements ActionListener, ListSelectionListener {
 			Set_renameLabel.setText("Wrong name");
 		}
 		else {
+			pane4.setVisible(false);
 			pane7.remove(pane4);
 	    	pane7.validate();
 			PrintName.setText("nom : " + nom);
-			MyList_user.send_new_name(nom, this.nom);
+			
+			
+			System.out.println("mon nom : " + this.nom);
+			System.out.println("mon nom rename : " + nom);
+			
+			listmodel.set(listmodel.indexOf(this.nom),nom);
+			list.setModel(listmodel);
+			
+			//MyList_user.send_new_name(nom, this.nom);
 			this.nom=nom;	
 		}
 		
@@ -238,6 +247,7 @@ public class login implements ActionListener, ListSelectionListener {
 		pane7.add(pane4);
 			//frame.getContentPane().add(pane4, BorderLayout.CENTER);
     	pane4.setVisible(true);
+    	pane7.validate();
     	
     	
     	System.out.println("ok set_rename 2 ");
@@ -269,7 +279,7 @@ public class login implements ActionListener, ListSelectionListener {
 		MyAgent.MainPanel.add(pane2);
     	//frame.getContentPane().add(pane2, BorderLayout.CENTER);
     	pane2.setVisible(true);
-    	MyAgent.MainPanel.remove(MyAgent.pane1);
+    	MyAgent.MainPanel.remove(MyAgent.get_pane1());
     	MyAgent.MainPanel.validate();
     }
 
@@ -302,9 +312,12 @@ public class login implements ActionListener, ListSelectionListener {
 		
 		if (event.getActionCommand().equals("OK RENAME")) {
 			rename(Set_renameTextField.getText());
-			}
-  			//pane3.setVisible(true);
 		}
+		if (event.getActionCommand().equals("Disconnect")) {
+			MyList_user.send_disconnection();
+			MyAgent.get_frame().dispose();
+		}
+	}
 
 
 		public void valueChanged(ListSelectionEvent e) {
@@ -324,6 +337,7 @@ public class login implements ActionListener, ListSelectionListener {
 			System.out.println("ok ok ok ");
 			
 			listmodel.clear();
+			list.setModel(listmodel);
 			String[] list_user=MyList_user.get_list_user();
 	    	for(int i=0;i<list_user.length;i++) {
 	    		if(list_user[i]!=null) {

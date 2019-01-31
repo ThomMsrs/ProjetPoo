@@ -19,12 +19,12 @@ public class Agent implements ActionListener{
 	static JFrame frame;
 	JPanel MainPanel;
 	
-	JButton MainButton;
-	JButton MainButton2;
-	JButton MainButton3;
-	JPanel pane1;
-	JPanel pane2;
-	JLabel LabelOnline;
+	private JButton MainButton;
+	private JButton MainButton2;
+	private JButton MainButton3;
+	private JPanel pane1;
+	//private JPanel pane2;
+	private JLabel LabelOnline;
 	
 
 		private static void initLookAndFeel() {
@@ -159,6 +159,14 @@ public class Agent implements ActionListener{
 	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
+	    }
+	    
+	    public JPanel get_pane1() {
+	    	return this.pane1;
+	    }
+	    
+	    public JFrame get_frame() {
+	    	return this.frame;
 	    }
 		
 	    

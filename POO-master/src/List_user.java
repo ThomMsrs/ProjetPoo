@@ -54,6 +54,28 @@ public class List_user {
 			MyLogin.maj_display_list();
 	}
 	
+	public void send_disconnection() {
+		MyClientUDP= new ClientUDP(1601, MyLogin.get_name() + " # " + "Disconnect");		
+		MyClientUDP.start();
+		MyServerUDP.close_socket();
+	}
+	
+	public void maj_list_user_disconnection(String name) {
+		nbr_user--;
+		int i=0;
+		while(list_user[i].equals(name)!=true) {
+			i++;
+		}
+		int j=i;
+		int k=j+1;
+		while(list_user[k]!=null) {
+			list_user[j]=list_user[k];
+			j++;
+			k++;
+		}
+		MyLogin.maj_display_list();
+	}
+	
 	
 	
 	// peut etre ne faire qu'une seul methode pour laddr et le nom
@@ -73,7 +95,6 @@ public class List_user {
 	public void send_new_name(String new_name, String old_name) {
 		MyClientUDP= new ClientUDP(1601, new_name + " / " + old_name);			//envoie son blaze et ancien a tt le monde
 		MyClientUDP.start();
-		maj_list_user(old_name, new_name);
 	}
 	
 	public void send_new_name(String new_name) 

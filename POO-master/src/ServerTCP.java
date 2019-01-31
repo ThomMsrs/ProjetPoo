@@ -91,6 +91,7 @@ public class ServerTCP extends Thread{
 						flag=0;
 					}
 					if(input.equals("CLOSE_SESSION2")) {
+						System.out.println("pq tu fermes mon gar t fou 333333");
 						link.close();
 						flag=0;
 					}
@@ -99,6 +100,8 @@ public class ServerTCP extends Thread{
 					//afficher le message sur la bonne session
 					MySessionUsed.listmodel.addElement(MySessionUsed.get_user_dest() +  " : " + input + "  	                "  + date.format(new Date()) );
 					MySessionUsed.list_conv.setModel(MySessionUsed.listmodel);
+					
+					
 					try {
 						Statement statement=MySessionUsed.con2.createStatement();
 						ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + MySessionUsed.get_user_dest() + "," + MySessionUsed.get_user_dest() + " : " + input  + "                         " + date.format(new Date()) + ")" );
@@ -106,9 +109,6 @@ public class ServerTCP extends Thread{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
-					//ajouter le message a l'historique
-					//MySessionUsed.MySessions.add_to_historique(MySessions.MyLogin.get_name(), MySession.get_user_dest(), input);
 				}
 			}		
 		} catch (IOException e) {

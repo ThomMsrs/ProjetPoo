@@ -15,6 +15,7 @@ public class ServerUDP extends Thread{
 	Sessions MySessions;
 	Session MySession;
 	int session_num;
+	boolean ok_boucle;
 
 	
 	
@@ -22,6 +23,7 @@ public class ServerUDP extends Thread{
 		super();
 		MyList_user=list_user;	
 		port=num_port;	//toujours 1500
+		ok_boucle=true;
 	}
 
 
@@ -34,7 +36,7 @@ public class ServerUDP extends Thread{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			while(true){	
+			while(ok_boucle){	
 				buffer = new byte[256];
 				DatagramPacket inPacket = new DatagramPacket(buffer,buffer.length);
 				try {
@@ -71,13 +73,23 @@ public class ServerUDP extends Thread{
 						}
 						else {	// si 1 nom / 1 nom
 								if(message.indexOf(" / ")!=-1){
+									System.out.println("le rename est présent quoi ");
 									String[] name_oldname=message.split(" / ");
-									MyList_user.maj_list_user(name_oldname[0],name_oldname[1]);
+									System.out.println(" son ancien nom : " + name_oldname[0]);
+									System.out.println(" son nvx nom : " + name_oldname[1]);
+									MyList_user.maj_list_user(name_oldname[1],name_oldname[0]);
+								}
+								if(message.indexOf(" # ")!=-1){
+									System.out.println("la deconnexion de l'utilisateur est présent quoi ");
+									String[] name_disconnect=message.split(" # ");
+									System.out.println(" son ancien nom : " + name_disconnect[0]);
+
+									MyList_user.maj_list_user_disconnection(name_disconnect[0]);
 								}
 								else {
 									System.out.println(message);
 									MyList_user.maj_list_user_addr(inPacket.getAddress());
-									System.out.println("addresse stock� : " + inPacket.getAddress());
+									System.out.println("addresse stock� : " + inPacket.getAddress());
 									MyList_user.maj_list_user(message); 	
 								}
 						}
@@ -85,5 +97,14 @@ public class ServerUDP extends Thread{
 			// on ferme quand on close sessions ou quand on se deconnecte
 			//dgramSocket.close();		
 			}
+					
 	}
+	
+	public void close_socket() {
+		System.out.println("on y est !!");
+		ok_boucle=false;
+		dgramSocket_server.close();
+	}
+	
+	
 }
