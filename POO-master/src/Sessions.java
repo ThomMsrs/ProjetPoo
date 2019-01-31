@@ -47,7 +47,7 @@ public class Sessions implements ActionListener{
 
 		} catch ( ClassNotFoundException e ) {
 		}
-		con = DriverManager.getConnection(  URL DE LA BASE DE DONNEE );
+		con = DriverManager.getConnection(jdbc:mysql://localhost:3306/);
 		*/
 	}
 	
