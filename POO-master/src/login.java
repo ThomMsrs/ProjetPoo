@@ -310,7 +310,7 @@ public class login implements ActionListener, ListSelectionListener {
 		public void valueChanged(ListSelectionEvent e) {
 			if(MySessions.get_flag_ask_session()==0) {
 				MySessions.windows_ask_session();
-				MySessions.ask_sessionLabel.setText("demarrer session avec " + list.getSelectedValue());
+				MySessions.ask_sessionLabel.setText("demarrer session avec " + list.getSelectedValue());		// dans session faire un getter
 			}	
 		}
 		

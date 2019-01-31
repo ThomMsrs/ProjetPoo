@@ -25,11 +25,12 @@ public class List_user {
 			MyServerUDP=new ServerUDP(this,1500);
 			MyServerUDP.start();
 		}
-		if(mode==0) {
+		/*if(mode==0) {
 			MyClientTCP=new ClientTCP(this,2200);
 			MyClientTCP.start();
 			list_user_state= new String[100000];
 		}
+		*/
 
 		//creation d'un ClientUDP extends threads qui va envoyer une demande de noms en broadcast
 		//et stocker les resultats dans la list_user

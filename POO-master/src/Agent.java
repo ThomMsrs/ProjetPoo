@@ -15,8 +15,6 @@ public class Agent implements ActionListener{
 	
 	private int mode;
 	
-	
-	
 	final static String LOOKANDFEEL = null ;
 	static JFrame frame;
 	JPanel MainPanel;
@@ -26,15 +24,14 @@ public class Agent implements ActionListener{
 	JButton MainButton3;
 	JPanel pane1;
 	JPanel pane2;
-	
-	
+	JLabel LabelOnline;
 	
 
 		private static void initLookAndFeel() {
 		        
 		        // Swing allows you to specify which look and feel your program uses--Java,
 		        // GTK+, Windows, and so on as shown below.
-		        String lookAndFeel = null;
+		        String lookAndFeel ="System";
 		        
 		        if (LOOKANDFEEL != null) {
 		            if (LOOKANDFEEL.equals("Metal")) {
@@ -92,16 +89,22 @@ public class Agent implements ActionListener{
 			 MainButton2.addActionListener(this);
 			 MainButton.setMnemonic(KeyEvent.VK_I);
 			 MainButton.addActionListener(this);
+			 LabelOnline= new JLabel("Disponible à la prochaine mise à jours");
 			 
 			 //MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.PAGE_AXIS));
 		     MainPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		     
 
-			 
+		     
+		     
+	    	
 			 pane1 = new JPanel(new GridLayout(0, 1));
 		     pane1.add(MainButton);
 		     pane1.add(MainButton2);
 		     pane1.add(MainButton3);
+		     pane1.add(LabelOnline);
+		     
+		     LabelOnline.setVisible(false);
 		     MainButton3.setVisible(false);
 		     pane1.setBorder(BorderFactory.createEmptyBorder(
 		                150, //top
@@ -122,13 +125,20 @@ public class Agent implements ActionListener{
 	    		MainButton.setVisible(false);
 	    		MainButton2.setVisible(false);
 	    		mode=1;
+	    		LabelOnline.setVisible(false);
 	    		
 	    	}
 	    	if (event.getActionCommand().equals("Online")) {
+	    		/*
 	    		MainButton3.setVisible(true);
 	    		MainButton.setVisible(false);
 	    		MainButton2.setVisible(false);
 	    		mode=0;
+	    		*/
+	    		
+	    		LabelOnline.setVisible(true);
+	    		
+	    		
 	    	}
 	    }
 		

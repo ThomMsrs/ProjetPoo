@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -44,6 +45,9 @@ public class Session implements ActionListener, ListSelectionListener{
 	JLabel session_nameLabel;
 	JList list_conv;
 	DefaultListModel listmodel;
+	
+	JTextArea Chatarea;
+	
     JFrame frame;
     Connection con2;
 
@@ -122,9 +126,6 @@ public class Session implements ActionListener, ListSelectionListener{
 		session_messageTextField= new JTextField();
 		session_messageTextField.addActionListener( action );
 		
-		/* LABEL POUR LHISTORIQUE ??? */
-		/* si historique afficher un listmodel */
-		//session_nameLabel = new JLabel(name);
 		
 		listmodel=new DefaultListModel();
 		
@@ -140,9 +141,14 @@ public class Session implements ActionListener, ListSelectionListener{
     	listScroller.add(list_conv);
     	list_conv.addListSelectionListener(this);
 		
+		
+		//Chatarea= new JTextArea();
+		
+		
 		 pane6 = new JPanel(new GridLayout(0, 1));
+		 
+		/* pane6.add(Chatarea);*/
 	     
-	     //pane6.add(session_nameLabel);
 		 pane6.add(list_conv);
 	     pane6.add(session_messageTextField);
 	     pane6.add(session_sendButton);
@@ -177,12 +183,26 @@ public class Session implements ActionListener, ListSelectionListener{
 			remove_panel_session();
 		}
 		if (event.getActionCommand().equals("SEND")){
+			
+			
 			System.out.println("msg send "  );
+			
+			
 			SimpleDateFormat date=new SimpleDateFormat("h:mm a");
+			
+			
 			listmodel.addElement(MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                              " + date.format(new Date()));
 			list_conv.setModel(listmodel);
+
+			/*
+			Chatarea.append(MySessions.MyLogin.get_name());
+			Chatarea.append(" : " + session_messageTextField.getText()+ " ");
+			Chatarea.append(date.format(new Date()) + "\n");
+			*/
+			
 			envoie_de_message(session_messageTextField.getText());
 			session_messageTextField.setText("");
+			
 			try {
 				Statement statement=con2.createStatement();
 				ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + user + "," + MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()) + ")" );
@@ -200,16 +220,27 @@ public class Session implements ActionListener, ListSelectionListener{
 		MySessions.MyLogin.pane7.validate();*/
 	}
 	
+	
+	/* touche entrer pour envoyer */ 
 	Action action = new AbstractAction()
 	{
 	    public void actionPerformed(ActionEvent e)
 	    {
 	    	System.out.println("msg send "  );
 	    	SimpleDateFormat date=new SimpleDateFormat("h:mm a");
-			listmodel.addElement(MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()));
+	    	
+	    	listmodel.addElement(MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()));
 			list_conv.setModel(listmodel);
+			
+			/*
+			Chatarea.append(MySessions.MyLogin.get_name());
+			Chatarea.append(" : " + session_messageTextField.getText()+ " ");
+			Chatarea.append(date.format(new Date()) + "\n");
+			*/
+			
 			envoie_de_message(session_messageTextField.getText());
 			session_messageTextField.setText("");
+	
 			try {
 				Statement statement=con2.createStatement();
 				ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + user + "," + MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()) + ")" );

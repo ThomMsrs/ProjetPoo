@@ -21,12 +21,16 @@ public class ClientTCP extends Thread {
 	private String nom;
 	
 	
+	/*
+	
 	public ClientTCP(List_user list_user, int num_port) {
 		super();
 		port=num_port;
 		MyList_user=list_user;
-		/*addr_dest= addresse du serveur */
+		
 	}
+	
+	*/
 	
 	
 	public ClientTCP(Sessions sessions, int num_port, String message, InetAddress address_dest) {
@@ -86,7 +90,7 @@ public class ClientTCP extends Thread {
 					e.printStackTrace();
 				}
 			}
-			else if(port==2200) {
+			/* else if(port==2200) {
 				try {
 					Socket link = new Socket(addr_dest,port);
 					PrintWriter out=new PrintWriter(link.getOutputStream(),true);
@@ -143,7 +147,7 @@ public class ClientTCP extends Thread {
 				}catch (IOException e){
 				
 				}
-			}
+			} */
 			else {
 				Socket link;
 				try {
