@@ -104,6 +104,7 @@ public class ServerTCP extends Thread{
 					MySessionUsed.get_list().setModel(MySessionUsed.get_list_model());
 					
 					
+					/*
 					try {
 						Statement statement=MySessionUsed.getCon2().createStatement();
 						ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + MySessionUsed.get_user_dest() + "," + MySessionUsed.get_user_dest() + " : " + input  + "                         " + date.format(new Date()) + ")" );
@@ -111,6 +112,8 @@ public class ServerTCP extends Thread{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					
+					*/
 				}
 			}		
 		} catch (IOException e) {

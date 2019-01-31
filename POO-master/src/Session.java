@@ -62,6 +62,8 @@ public class Session implements ActionListener, ListSelectionListener{
 		System.out.println(" ok ouverture de la session 2");
 		windows_session(user);
 		System.out.println(" ok ouverture de la session 3");
+		
+		/*
 		try {
 			Statement statement=getCon2().createStatement();
 			ResultSet rs=statement.executeQuery("SELECT message FROM Historique WHERE user_dest =" + this.user);
@@ -69,6 +71,7 @@ public class Session implements ActionListener, ListSelectionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 /*
@@ -173,6 +176,10 @@ public class Session implements ActionListener, ListSelectionListener{
 	        
 	        //Create and set up the window.
 	        frame = new JFrame("Agent");
+	        
+	        frame.setPreferredSize(new Dimension(400,800));
+
+	        
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setContentPane(pane6);
 
@@ -250,6 +257,8 @@ public class Session implements ActionListener, ListSelectionListener{
 			envoie_de_message(session_messageTextField.getText());
 			session_messageTextField.setText("");
 	
+			/*
+			
 			try {
 				Statement statement=getCon2().createStatement();
 				ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + user + "," + MySessions.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()) + ")" );
@@ -257,6 +266,7 @@ public class Session implements ActionListener, ListSelectionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			*/
 	    }
 	};
 

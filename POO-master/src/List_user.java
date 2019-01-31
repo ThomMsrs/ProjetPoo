@@ -23,12 +23,7 @@ public class List_user {
 			MyServerUDP=new ServerUDP(this,1500);
 			MyServerUDP.start();
 		}
-		/*if(mode==0) {
-			MyClientTCP=new ClientTCP(this,2200);
-			MyClientTCP.start();
-			list_user_state= new String[100000];
-		}
-		*/
+		ask_list_user();
 
 		//creation d'un ClientUDP extends threads qui va envoyer une demande de noms en broadcast
 		//et stocker les resultats dans la list_user
@@ -81,9 +76,15 @@ public class List_user {
 	public void maj_list_user(String name) {							// on recoit une nouvelle connexion
 		list_user[nbr_user]=name;
 		nbr_user++;
-		if(name.equals(MyLogin.get_name())==false){
-			MyLogin.add_element_to_list(name);
+		
+		if(name.equals(MyLogin.get_name())){
 		}
+		else {
+			if(MyLogin.windows_connected_ok()) {
+				MyLogin.add_element_to_list(name);
+			}
+		}
+
 	}
 	
 	public void maj_list_user_addr(InetAddress addr) {							// on recoit une nouvelle connexion
@@ -146,7 +147,7 @@ public class List_user {
 	}
 	
 	public boolean check_name(String nom){
-		ask_list_user();
+		//ask_list_user();
 		for(int i=0 ; i<list_user.length ; i++) {
 			if (list_user[i]!=nom){
 			}

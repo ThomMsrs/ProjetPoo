@@ -48,6 +48,7 @@ public class ServerUDP extends Thread{
 					e.printStackTrace();
 				}
 				message = new String(inPacket.getData(), 0, inPacket.getLength());
+				System.out.println(" MESSAGE RECU : " + message);
 				
 				/* on compare le resultat de message : il peut contenir soit :
 				 * 
@@ -60,23 +61,25 @@ public class ServerUDP extends Thread{
 						if(message.equals("ASK_FOR_NAME")) {
 							InetAddress clientAddress= inPacket.getAddress();
 							int clientPort = inPacket.getPort();
-							response=MyList_user.get_name();
-							DatagramPacket outPacket = new DatagramPacket(response.getBytes(), response.length(),clientAddress, 1500);
-							try {
-								dgramSocket_server.send(outPacket);
-							} 
-							catch (IOException e) {
-								System.out.println("Il repassera par là");
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+							if(MyList_user.get_name()!=null) {
+								response=MyList_user.get_name();
+								DatagramPacket outPacket = new DatagramPacket(response.getBytes(), response.length(),clientAddress, 1500);
+								try {
+									dgramSocket_server.send(outPacket);
+								} 
+								catch (IOException e) {
+									System.out.println("Il repassera par là");
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
 						}
-						else {	// si 1 nom / 1 nom
+						else {	// si 1 nouveau nom / 1 ancien nom
 								if(message.indexOf(" / ")!=-1){
 									System.out.println("le rename est présent quoi ");
 									String[] name_oldname=message.split(" / ");
-									System.out.println(" son ancien nom : " + name_oldname[0]);
-									System.out.println(" son nvx nom : " + name_oldname[1]);
+									System.out.println(" son ancien nom : " + name_oldname[1]);
+									System.out.println(" son nvx nom : " + name_oldname[0]);
 									if(name_oldname[0].equals(MyList_user.get_name())) {
 										System.out.println("on maj list pas nouuus ?");
 									}
@@ -88,7 +91,7 @@ public class ServerUDP extends Thread{
 								else if(message.indexOf(" # ")!=-1){
 									System.out.println("la deconnexion de l'utilisateur est présent quoi ");
 									String[] name_disconnect=message.split(" # ");
-									System.out.println(" son ancien nom : " + name_disconnect[0]);
+									System.out.println(" son nom  : " + name_disconnect[0]);
 
 									MyList_user.maj_list_user_disconnection(name_disconnect[0]);
 								}

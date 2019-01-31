@@ -32,6 +32,7 @@ public class login implements ActionListener, ListSelectionListener {
 		private String Address;			//Mon adresse en String
 		private Agent MyAgent;
 		private int bouttonok=0;
+		private boolean windows_connected_ok;
 		
 		private JButton Set_nameButton;
 		private JTextField Set_nameTextField;
@@ -43,6 +44,7 @@ public class login implements ActionListener, ListSelectionListener {
 		private	JLabel PrintName;
 		private	JPanel pane3;
 		private	JButton DisconnectButton;
+		
 		
 		
 		private JLabel Set_renameLabel;
@@ -68,6 +70,7 @@ public class login implements ActionListener, ListSelectionListener {
 			System.out.print(Address);
 			System.out.println(" # ");
 			MyList_user= new List_user(this, mode_connexion);
+			windows_connected_ok=false;
 		}
 
 	/*
@@ -99,8 +102,9 @@ public class login implements ActionListener, ListSelectionListener {
 			System.out.println("mon nom : " + this.nom);
 			System.out.println("mon nom rename : " + nom);
 			
+			/*
 			listmodel.set(listmodel.indexOf(this.nom),nom);
-			list.setModel(listmodel);
+			list.setModel(listmodel);*/
 			
 			MyList_user.send_new_name(nom, this.nom);
 			this.nom=nom;	
@@ -148,8 +152,13 @@ public class login implements ActionListener, ListSelectionListener {
     }
     
     //gestion de la connexion 
+    public boolean windows_connected_ok() {
+    	return windows_connected_ok;
+    }
+    
     
     public void windows_connected() {
+    	windows_connected_ok=true;
     	MyAgent.MainPanel.setLayout(new GridLayout(0, 2));
     	
     	listmodel=new DefaultListModel();
