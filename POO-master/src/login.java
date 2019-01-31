@@ -67,66 +67,14 @@ public class login implements ActionListener, ListSelectionListener {
 				e.printStackTrace();
 			}
 			Address= MyAddress.toString();
-			System.out.print(Address);
-			System.out.println(" # ");
+			System.out.print( "Mon addresse : " + Address);
 			MyList_user= new List_user(this, mode_connexion);
 			windows_connected_ok=false;
 		}
+	
+	
 
-	/*
-	private boolean check_name(String nom){
-		MyList_user.ask_list_user();
-		String[] list_user= MyList_user.get_list_user();
-		for(int i=0;i< (MyList_user.get_length_list_user());i++) {
-			if (list_user[i]!=nom){
-			}
-			else {
-				return false;
-			}
-		}
-		return true;
-	}*/
 	
-	
-	public void rename(String nom) {
-		if(MyList_user.check_name(nom)!=true) {
-			Set_renameLabel.setText("Wrong name");
-		}
-		else {
-			pane4.setVisible(false);
-			pane7.remove(pane4);
-	    	pane7.validate();
-			PrintName.setText("nom : " + nom);
-			
-			
-			System.out.println("mon nom : " + this.nom);
-			System.out.println("mon nom rename : " + nom);
-			
-			/*
-			listmodel.set(listmodel.indexOf(this.nom),nom);
-			list.setModel(listmodel);*/
-			
-			MyList_user.send_new_name(nom, this.nom);
-			this.nom=nom;	
-		}
-		
-	}
-	
-	/*
-	public void rename(String nom) {
-			if(check_name(nom)!=true) {
-				Set_renameLabel.setText("Wrong name");
-			}
-			else {
-				pane7.remove(pane4);
-		    	pane7.validate();
-				PrintName.setText("nom : " + nom);
-				MyList_user.send_new_name(nom, this.nom);
-				this.nom=nom;	
-			}
-	}
-    */
-    
     public String get_name() {
     	return nom;
     }
@@ -150,6 +98,24 @@ public class login implements ActionListener, ListSelectionListener {
     public int get_bouttonok() {
     	return bouttonok;
     }
+    
+    public InetAddress get_addr(String user_dest) {
+    	return MyList_user.get_addr(user_dest);
+    }
+    
+    public JPanel get_pane7() {
+    	return this.pane7;
+    }
+    
+    public JList get_list() {
+    	return this.list;
+    }
+	
+    public String get_user(int i) {
+    	return MyList_user.get_user(i);
+    }
+    
+    
     
     //gestion de la connexion 
     public boolean windows_connected_ok() {
@@ -208,9 +174,7 @@ public class login implements ActionListener, ListSelectionListener {
 	    pane3.setBorder(BorderFactory.createCompoundBorder(
 	            BorderFactory.createTitledBorder("Liste des utilisateurs"), 
 	            BorderFactory.createEmptyBorder(15,5,15,5)));
-	    
-	    
-		System.out.println("ok windows list user");
+
 		
 		pane7 = new JPanel(new GridLayout(0, 1));
 		
@@ -223,15 +187,12 @@ public class login implements ActionListener, ListSelectionListener {
        MyAgent.MainPanel.remove(pane2);
        MyAgent.MainPanel.validate();
        
-    	//frame.getContentPane().add(pane3, BorderLayout.CENTER);
     	pane3.setVisible(true);
     }
     
     //nommage et renommage 
     
     public void windows_set_rename() {
-    	
-    	System.out.println("ok set_rename 1 ");
     	 
     	 Set_renameTextField= new JTextField();
     	
@@ -251,15 +212,11 @@ public class login implements ActionListener, ListSelectionListener {
 	                15, //left
 	                5, //bottom
 	                15)); //right
-			System.out.println("ok windows set rename");
         
 		pane7.add(pane4);
 			//frame.getContentPane().add(pane4, BorderLayout.CENTER);
     	pane4.setVisible(true);
     	pane7.validate();
-    	
-    	
-    	System.out.println("ok set_rename 2 ");
     }
     
     public void windows_set_name() {
@@ -282,15 +239,37 @@ public class login implements ActionListener, ListSelectionListener {
 	                15, //left
 	                5, //bottom
 	                15)); //right
-		System.out.println("ok windows set name");
-       
-		
+	     
 		MyAgent.MainPanel.add(pane2);
     	//frame.getContentPane().add(pane2, BorderLayout.CENTER);
     	pane2.setVisible(true);
     	MyAgent.MainPanel.remove(MyAgent.get_pane1());
     	MyAgent.MainPanel.validate();
     }
+    
+	public void rename(String nom) {
+		if(MyList_user.check_name(nom)!=true) {
+			Set_renameLabel.setText("Wrong name");
+		}
+		else {
+			pane4.setVisible(false);
+			pane7.remove(pane4);
+	    	pane7.validate();
+			PrintName.setText("nom : " + nom);
+			
+			
+			System.out.println("mon ancien nom : " + this.nom);
+			System.out.println("mon nouveau nom : " + nom);
+			
+			/*
+			listmodel.set(listmodel.indexOf(this.nom),nom);
+			list.setModel(listmodel);*/
+			
+			MyList_user.send_new_name(nom, this.nom);
+			this.nom=nom;	
+		}
+		
+	}
 
 
 
@@ -304,21 +283,15 @@ public class login implements ActionListener, ListSelectionListener {
 			}
 			else {
 				windows_connected();
-				MySessions = new Sessions(this);											// on peut nous contacter pour une session une fois que l'on est connecté
-				System.out.println("ok apres creation de session une fois connecte");
+				MySessions = new Sessions(this);											// on peut nous contacter pour une session une fois que l'on est connecte
 				MyList_user.send_new_name(nom);
 				MyAgent.MainPanel.remove(pane2);
 				MyAgent.MainPanel.validate();
 			}
 		}
-		
 		if(event.getActionCommand().equals("Rename")) {
 			windows_set_rename();
-			//pane3.setVisible(false);
-			
 		}
-
-		
 		if (event.getActionCommand().equals("OK RENAME")) {
 			rename(Set_renameTextField.getText());
 		}
@@ -332,7 +305,7 @@ public class login implements ActionListener, ListSelectionListener {
 		public void valueChanged(ListSelectionEvent e) {
 			if(MySessions.get_flag_ask_session()==0) {
 				MySessions.windows_ask_session();
-				MySessions.getAsk_sessionLabel().setText("demarrer session avec " + list.getSelectedValue());		// dans session faire un getter
+				MySessions.getAsk_sessionLabel().setText("demarrer session avec " + list.getSelectedValue());		
 			}	
 		}
 		
@@ -342,9 +315,6 @@ public class login implements ActionListener, ListSelectionListener {
 		}
 		
 		public void maj_display_list() {
-			
-			System.out.println("ok ok ok ");
-			
 			listmodel.clear();
 			list.setModel(listmodel);
 			String[] list_user=MyList_user.get_list_user();
@@ -356,21 +326,7 @@ public class login implements ActionListener, ListSelectionListener {
 	    	list.setModel(listmodel);
 		}
     
-    public InetAddress get_addr(String user_dest) {
-    	return MyList_user.get_addr(user_dest);
-    }
-    
-    public JPanel get_pane7() {
-    	return this.pane7;
-    }
-    
-    public JList get_list() {
-    	return this.list;
-    }
-	
-    public String get_user(int i) {
-    	return MyList_user.get_user(i);
-    }
+
 	
 }
 

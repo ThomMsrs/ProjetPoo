@@ -45,24 +45,22 @@ public class Session implements ActionListener, ListSelectionListener{
 	private	JLabel session_nameLabel;
 	private	JList list_conv;
 	private	DefaultListModel listmodel;
-	
-	private	JTextArea Chatarea;
-	
+
 	private   JFrame frame;
 	private   Connection con2;
 
+	
 	public Session(Sessions sessions,String destinataire,InetAddress addresse_destinataire, int num_port,int port_dest, Connection con) {		// nouvelle session
 		MySessions=sessions;
 		this.user = destinataire;
 		this.port=num_port;
 		this.port_dest=port_dest;
 		this.addr_dest=addresse_destinataire;
-		System.out.println(" ok ouverture de la session 1");
 		message_recu(port);
-		System.out.println(" ok ouverture de la session 2");
 		windows_session(user);
-		System.out.println(" ok ouverture de la session 3");
 		
+		
+		// mode avec BASE DE DONEE MYSQL pour afficher l'historique
 		/*
 		try {
 			Statement statement=getCon2().createStatement();
@@ -74,24 +72,10 @@ public class Session implements ActionListener, ListSelectionListener{
 		*/
 	}
 	
-/*
-	public Session(String destinataire, String[] historique_conv) {		// session deja ouverte auparavant donc historique conv
-		this.user = destinataire;
-		windows_session(user);
-		//afficher_fenetre();
-		//afficher fenetre avec l'historique
-		message_recu(port);
-	}
-	
-*/
 	
 	public void envoie_de_message(String msg) {
-		// afficher le message sur la fenetre + envoie message + add_to_historique
 		ClientTCP MyClientTCP= new ClientTCP(this, port_dest,msg,addr_dest);
 		MyClientTCP.start();
-		// + afficher le message
-		// + ajouter a lhisto_conversation
-		//MySessions.add_to_historique(MySessions.MyLogin.get_name(), MySessions.MyLogin.get_name(), msg);
 	}
 	
 	public void message_recu(int num_port) {
@@ -147,18 +131,13 @@ public class Session implements ActionListener, ListSelectionListener{
     	listScroller.setPreferredSize(new Dimension(150, 40));
     	listScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     	listScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    	//listScroller.setViewportView(list_conv);
     	listScroller.add(list_conv);
     	list_conv.addListSelectionListener(this);
 		
 		
-		//Chatarea= new JTextArea();
 		
 		
 		 pane6 = new JPanel(new GridLayout(0, 1));
-		 
-		/* pane6.add(Chatarea);*/
-	     
 		 pane6.add(list_conv);
 	     pane6.add(session_messageTextField);
 	     pane6.add(session_sendButton);
@@ -197,26 +176,16 @@ public class Session implements ActionListener, ListSelectionListener{
 			remove_panel_session();
 		}
 		if (event.getActionCommand().equals("SEND")){
-			
-			
-			System.out.println("msg send "  );
-			
-			
 			SimpleDateFormat date=new SimpleDateFormat("h:mm a");
 			
 			
 			listmodel.addElement(MySessions.get_name() + " : " + session_messageTextField.getText() + "                              " + date.format(new Date()));
 			list_conv.setModel(listmodel);
-
-			/*
-			Chatarea.append(MySessions.MyLogin.get_name());
-			Chatarea.append(" : " + session_messageTextField.getText()+ " ");
-			Chatarea.append(date.format(new Date()) + "\n");
-			*/
 			
 			envoie_de_message(session_messageTextField.getText());
 			session_messageTextField.setText("");
 			
+			// mode avec BASE DE DONEE MYSQL pour stocker un message
 			/*
 			try {
 				Statement statement=getCon2().createStatement();
@@ -231,32 +200,23 @@ public class Session implements ActionListener, ListSelectionListener{
 	
 	public void remove_panel_session() {
 		frame.dispose();
-		/*
-		MySessions.MyLogin.pane7.remove(pane6);
-		MySessions.MyLogin.pane7.validate();*/
 	}
 	
 	
-	/* touche entrer pour envoyer */ 
+	/* touche entrer pour envoyer le message */ 
 	Action action = new AbstractAction()
 	{
 	    public void actionPerformed(ActionEvent e)
 	    {
-	    	System.out.println("msg send "  );
 	    	SimpleDateFormat date=new SimpleDateFormat("h:mm a");
 	    	
 	    	listmodel.addElement(MySessions.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()));
 			list_conv.setModel(listmodel);
 			
-			/*
-			Chatarea.append(MySessions.MyLogin.get_name());
-			Chatarea.append(" : " + session_messageTextField.getText()+ " ");
-			Chatarea.append(date.format(new Date()) + "\n");
-			*/
-			
 			envoie_de_message(session_messageTextField.getText());
 			session_messageTextField.setText("");
 	
+			// mode avec BASE DE DONEE MYSQL pour stocker un message
 			/*
 			
 			try {
@@ -274,9 +234,8 @@ public class Session implements ActionListener, ListSelectionListener{
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
 		// TODO Auto-generated method stub
-		
-	}
-
+	}	
+	
 	public Connection getCon2() {
 		return con2;
 	}

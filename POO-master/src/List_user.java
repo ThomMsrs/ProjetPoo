@@ -15,7 +15,6 @@ public class List_user {
 	
 	public List_user(login Login, int mode_connexion) {
 		mode=mode_connexion;
-		System.out.println("ok dans List user");
 		list_user=new  String[100000];
 		list_user_addr=new InetAddress[100000];
 		this.MyLogin=Login;
@@ -39,7 +38,6 @@ public class List_user {
 	}
 	
 	public void maj_list_user(String old_name, String new_name) {		// on recoit un rename
-			System.out.println("on a bien recu un rename mec ");
 			int i=0;
 			while(list_user[i].equals(old_name)!=true) {
 				i++;

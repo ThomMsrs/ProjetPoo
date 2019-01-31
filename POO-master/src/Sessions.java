@@ -32,31 +32,23 @@ public class Sessions implements ActionListener{
 	
 	private Connection con=null;
 
-	
-	
-	
 	public Sessions (login Login) {
-		System.out.println("ok sessions");
 		MyLogin=Login;
 		last_port=2000;
 		Tab_Session=new Session[50];
-		//MyHistorique= new historique();
 		MyServerTCP=new ServerTCP(this,1700);			// permet de savoir si on veut nous contacter pour demarrer une session
 		MyServerTCP.start();
 		
-		
-		
+		//mode avec BASE DE DONEE MYSQL creer le liens entre le programme et la base de donnee
+		/*
 		try {
 
 		    Class.forName( "com.mysql.jdbc.Driver" );
 
 		} catch ( ClassNotFoundException e ) {
-
-		    /* Gérer les éventuelles erreurs ici. */
-
 		}
-		//con = DriverManager.getConnection( /* URL DE LA BASE DE DONNEE SQL */ );
-		
+		con = DriverManager.getConnection(  URL DE LA BASE DE DONNEE );
+		*/
 	}
 	
 	public void close_socket() {
@@ -65,11 +57,10 @@ public class Sessions implements ActionListener{
 	
 	public void demande_new_session(String user_dest) { 
 		int i=0;
-		String[] list_user=MyLogin.get_user_list();		// faire une methode public get_user(string user)
+		String[] list_user=MyLogin.get_user_list();		
 		while(list_user[i]!=user_dest) {
 			i++;
 		}
-
 		MyClientTCP = new ClientTCP(this,1700,"ASK_FOR_NEW_SESSION", MyLogin.get_user_list_addr(i));
 		MyClientTCP.start();
 	}
@@ -77,24 +68,9 @@ public class Sessions implements ActionListener{
 
 	
 	public void new_session(String user_dest, String port_dest) {				//creer une session avec un utilisateur
-
-		
-		
-		System.out.println(" ouverture de la session ");
 		Tab_Session[nbrsession]= new Session(this,user_dest,MyLogin.get_addr(user_dest),last_port,Integer.parseInt(port_dest),con);	
-		System.out.println("  session ouverte");
-		
-		
-		// test
-		
-		//Tab_Session[nbrsession]= new Session(this, user_dest, MyLogin.get_addr2(),last_port, Integer.parseInt(port_dest));
-		
-		// fin test
-		
 		last_port++;
-		nbrsession++;
-		
-		
+		nbrsession++;		
 	}
 	
 	
@@ -154,9 +130,7 @@ public class Sessions implements ActionListener{
 	    pane5.setBorder(BorderFactory.createCompoundBorder(
 		            BorderFactory.createTitledBorder("confirmer demande de session"), 
 		            BorderFactory.createEmptyBorder(5,5,5,5)));
-	     
-		System.out.println("ok windows ask session");
-      
+     
     	MyLogin.get_pane7().add(pane5);
     	MyLogin.get_pane7().validate();
 
@@ -180,8 +154,7 @@ public class Sessions implements ActionListener{
 			flag_ask_session=0;
 			MyLogin.get_pane7().remove(pane5);
 	    	MyLogin.get_pane7().validate();
-	  
-			System.out.println("ok nobutton");
+
 		}
 		
 	}

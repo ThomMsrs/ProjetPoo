@@ -23,7 +23,6 @@ public class Agent implements ActionListener{
 	private JButton MainButton2;
 	private JButton MainButton3;
 	private JPanel pane1;
-	//private JPanel pane2;
 	private JLabel LabelOnline;
 	
 

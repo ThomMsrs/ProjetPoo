@@ -12,9 +12,6 @@ public class ServerUDP extends Thread{
 	private String message;
 	private String response;
 	private	List_user MyList_user;
-	private	Sessions MySessions;
-	private	Session MySession;
-	private	int session_num;
 	private	boolean ok_boucle;
 
 	
@@ -32,7 +29,6 @@ public class ServerUDP extends Thread{
 				dgramSocket_server = new DatagramSocket(port);
 			} 
 			catch (SocketException e1) {
-				System.out.println("EROOROROROR1");
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -43,22 +39,16 @@ public class ServerUDP extends Thread{
 					dgramSocket_server.receive(inPacket);
 				} 
 				catch (IOException e) {
-					System.out.println("il court il court le furet");
+					System.out.println(" ERREUR SERVER UDP ");
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				message = new String(inPacket.getData(), 0, inPacket.getLength());
 				System.out.println(" MESSAGE RECU : " + message);
 				
-				/* on compare le resultat de message : il peut contenir soit :
-				 * 
-				 * PORT 1500
-				 * -1 : un nom, il faut mettre a jours notre tableau list_user 	et list_user_addr
-				 * -2	: deux nom, remplacer lancien nom par le nouveau dans list_user
-				 * -3 : une demande de nom, il faut renvoyer notre nom et adresse
-				 */
-					if(port==1500) {	// pas besoin de ce if
-						if(message.equals("ASK_FOR_NAME")) {
+
+					if(port==1500) {
+						if(message.equals("ASK_FOR_NAME")) { 	//un autre utilisateur se connecte, et nous demande notre nom
 							InetAddress clientAddress= inPacket.getAddress();
 							int clientPort = inPacket.getPort();
 							if(MyList_user.get_name()!=null) {
@@ -68,47 +58,38 @@ public class ServerUDP extends Thread{
 									dgramSocket_server.send(outPacket);
 								} 
 								catch (IOException e) {
-									System.out.println("Il repassera par là");
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							}
 						}
-						else {	// si 1 nouveau nom / 1 ancien nom
-								if(message.indexOf(" / ")!=-1){
-									System.out.println("le rename est présent quoi ");
+						else {	
+								if(message.indexOf(" / ")!=-1){						//un autre utilisateur change de nom, reception 1 nouveau nom / 1 ancien nom
 									String[] name_oldname=message.split(" / ");
 									System.out.println(" son ancien nom : " + name_oldname[1]);
 									System.out.println(" son nvx nom : " + name_oldname[0]);
 									if(name_oldname[0].equals(MyList_user.get_name())) {
-										System.out.println("on maj list pas nouuus ?");
 									}
 									else {
-										System.out.println("on maj list pas nouuus ? 2");
 										MyList_user.maj_list_user(name_oldname[1],name_oldname[0]);
 									}
 								}
-								else if(message.indexOf(" # ")!=-1){
-									System.out.println("la deconnexion de l'utilisateur est présent quoi ");
+								else if(message.indexOf(" # ")!=-1){				//un autre utilisateur se deconnecte, reception 1 nouveau nom # Disconnect
 									String[] name_disconnect=message.split(" # ");
-									System.out.println(" son nom  : " + name_disconnect[0]);
+									System.out.println(" deconnection : son nom  : " + name_disconnect[0]);
 
 									MyList_user.maj_list_user_disconnection(name_disconnect[0]);
 								}
-								else {
-									System.out.println(message);
+								else {												//un autre utilisateur se connecte et nous envoie son nom
 									MyList_user.maj_list_user_addr(inPacket.getAddress());
-									System.out.println("addresse stock� : " + inPacket.getAddress());
+									System.out.println("addresse destinataire : " + inPacket.getAddress());
 									MyList_user.maj_list_user(message); 	
 								}
 						}
 					}
-			}
-					
+			}		
 	}
-	
 	public void close_socket() {
-		System.out.println("on y est !!");
 		ok_boucle=false;
 		dgramSocket_server.close();
 	}
