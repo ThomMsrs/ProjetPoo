@@ -6,16 +6,16 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class ServerUDP extends Thread{
-	byte[] buffer;
-	DatagramSocket dgramSocket_server;
-	int port;
-	String message;
-	String response;
-	List_user MyList_user;
-	Sessions MySessions;
-	Session MySession;
-	int session_num;
-	boolean ok_boucle;
+	private byte[] buffer;
+	private DatagramSocket dgramSocket_server;
+	private int port;
+	private String message;
+	private String response;
+	private	List_user MyList_user;
+	private	Sessions MySessions;
+	private	Session MySession;
+	private	int session_num;
+	private	boolean ok_boucle;
 
 	
 	
@@ -77,9 +77,15 @@ public class ServerUDP extends Thread{
 									String[] name_oldname=message.split(" / ");
 									System.out.println(" son ancien nom : " + name_oldname[0]);
 									System.out.println(" son nvx nom : " + name_oldname[1]);
-									MyList_user.maj_list_user(name_oldname[1],name_oldname[0]);
+									if(name_oldname[0].equals(MyList_user.get_name())) {
+										System.out.println("on maj list pas nouuus ?");
+									}
+									else {
+										System.out.println("on maj list pas nouuus ? 2");
+										MyList_user.maj_list_user(name_oldname[1],name_oldname[0]);
+									}
 								}
-								if(message.indexOf(" # ")!=-1){
+								else if(message.indexOf(" # ")!=-1){
 									System.out.println("la deconnexion de l'utilisateur est présent quoi ");
 									String[] name_disconnect=message.split(" # ");
 									System.out.println(" son ancien nom : " + name_disconnect[0]);
@@ -94,8 +100,6 @@ public class ServerUDP extends Thread{
 								}
 						}
 					}
-			// on ferme quand on close sessions ou quand on se deconnecte
-			//dgramSocket.close();		
 			}
 					
 	}

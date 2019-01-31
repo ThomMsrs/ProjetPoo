@@ -7,12 +7,10 @@ public class List_user {
 	private String[] list_user;
 	private InetAddress[] list_user_addr;
 	private String[] list_user_state;
-	int nbr_user=0;
-	ClientUDP MyClientUDP;
-	ServerUDP MyServerUDP;
-	ServerTCP MyServerTCP;
-	ClientTCP MyClientTCP;
-	login MyLogin;
+	private	int nbr_user=0;
+	private	ClientUDP MyClientUDP;
+	private	ServerUDP MyServerUDP;
+	private	login MyLogin;
 	private int mode;
 	
 	public List_user(login Login, int mode_connexion) {
@@ -46,6 +44,7 @@ public class List_user {
 	}
 	
 	public void maj_list_user(String old_name, String new_name) {		// on recoit un rename
+			System.out.println("on a bien recu un rename mec ");
 			int i=0;
 			while(list_user[i].equals(old_name)!=true) {
 				i++;

@@ -15,23 +15,22 @@ import com.sun.glass.events.KeyEvent;
 public class Sessions implements ActionListener{
 	
 	
-	int nbrsession=0;
-	Session[] Tab_Session;
-	historique MyHistorique;
-	ServerTCP MyServerTCP ;
-	ClientTCP MyClientTCP;
-	login MyLogin;
-	int last_port;
+	private	int nbrsession=0;
+	private Session[] Tab_Session;
+	private	ServerTCP MyServerTCP ;
+	private	ClientTCP MyClientTCP;
+	private	login MyLogin;
+	private	int last_port;
 	
 	
-	public JLabel ask_sessionLabel;
-	JPanel pane5;
-	JButton yesButton;
-	JButton noButton;
+	private JLabel ask_sessionLabel;
+	private	JPanel pane5;
+	private JButton yesButton;
+	private JButton noButton;
 
-	int flag_ask_session=0;
+	private int flag_ask_session=0;
 	
-	Connection con=null;
+	private Connection con=null;
 
 	
 	
@@ -60,7 +59,9 @@ public class Sessions implements ActionListener{
 		
 	}
 	
-	
+	public void close_socket() {
+		MyServerTCP.close_socketserver();
+	}
 	
 	public void demande_new_session(String user_dest) { 
 		int i=0;
@@ -80,7 +81,7 @@ public class Sessions implements ActionListener{
 		
 		
 		System.out.println(" ouverture de la session ");
-		Tab_Session[nbrsession]= new Session(this,user_dest,MyLogin.MyList_user.get_addr(user_dest),last_port,Integer.parseInt(port_dest),con);	
+		Tab_Session[nbrsession]= new Session(this,user_dest,MyLogin.get_addr(user_dest),last_port,Integer.parseInt(port_dest),con);	
 		System.out.println("  session ouverte");
 		
 		
@@ -110,9 +111,6 @@ public class Sessions implements ActionListener{
 		return MyLogin.get_name();
 	}
 	
-	public void add_to_historique(String user1, String user2, String conv/*date?*/) {
-		MyHistorique.add_to_historique(user1, user2, conv);
-	}
 	
 	public Session get_session(String user_dest) {
 		int i=0;
@@ -138,11 +136,11 @@ public class Sessions implements ActionListener{
 		noButton.setMnemonic(KeyEvent.VK_I);
 		noButton.addActionListener(this);
 		
-		ask_sessionLabel = new JLabel();
-		//ask_sessionLabel = new JLabel("demarrer session avec " + MyLogin.list.getSelectedValue());
+		
+		ask_sessionLabel = new JLabel("demarrer session avec " + MyLogin.get_list().getSelectedValue());
 		 
 		pane5 = new JPanel(new GridLayout(0, 1));
-		pane5.add(ask_sessionLabel);
+		pane5.add(getAsk_sessionLabel());
 	    pane5.add(yesButton);
 	    pane5.add(noButton);
 	    
@@ -159,8 +157,8 @@ public class Sessions implements ActionListener{
 	     
 		System.out.println("ok windows ask session");
       
-    	MyLogin.pane7.add(pane5);
-    	MyLogin.pane7.validate();
+    	MyLogin.get_pane7().add(pane5);
+    	MyLogin.get_pane7().validate();
 
     	pane5.setVisible(true);
     }
@@ -170,24 +168,28 @@ public class Sessions implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("YES")) {
-    		int i=MyLogin.list.getSelectedIndex();
-			demande_new_session(MyLogin.MyList_user.get_user(i));
-    		//new_session("choukou","1930");
-			MyLogin.list.clearSelection();
+    		int i=MyLogin.get_list().getSelectedIndex();
+			demande_new_session(MyLogin.get_user(i));
+			MyLogin.get_list().clearSelection();
 			flag_ask_session=0;
-			MyLogin.pane7.remove(pane5);
-	    	MyLogin.pane7.validate();
+			MyLogin.get_pane7().remove(pane5);
+	    	MyLogin.get_pane7().validate();
 		}
 		if (event.getActionCommand().equals("NO")) {
-			MyLogin.list.clearSelection();
+			MyLogin.get_list().clearSelection();
 			flag_ask_session=0;
-			MyLogin.pane7.remove(pane5);
-	    	MyLogin.pane7.validate();
+			MyLogin.get_pane7().remove(pane5);
+	    	MyLogin.get_pane7().validate();
 	  
 			System.out.println("ok nobutton");
 		}
 		
 	}
+
+	public JLabel getAsk_sessionLabel() {
+		return ask_sessionLabel;
+	}
+
 	
 
 }

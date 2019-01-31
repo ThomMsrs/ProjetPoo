@@ -38,18 +38,18 @@ public class Session implements ActionListener, ListSelectionListener{
 	private InetAddress addr_dest;
 	
 	
-	JButton session_sendButton;
-	JButton session_closeButton;
-	JTextField session_messageTextField;
-	JPanel pane6;
-	JLabel session_nameLabel;
-	JList list_conv;
-	DefaultListModel listmodel;
+	private	JButton session_sendButton;
+	private	JButton session_closeButton;
+	private	JTextField session_messageTextField;
+	private	JPanel pane6;
+	private	JLabel session_nameLabel;
+	private	JList list_conv;
+	private	DefaultListModel listmodel;
 	
-	JTextArea Chatarea;
+	private	JTextArea Chatarea;
 	
-    JFrame frame;
-    Connection con2;
+	private   JFrame frame;
+	private   Connection con2;
 
 	public Session(Sessions sessions,String destinataire,InetAddress addresse_destinataire, int num_port,int port_dest, Connection con) {		// nouvelle session
 		MySessions=sessions;
@@ -62,9 +62,8 @@ public class Session implements ActionListener, ListSelectionListener{
 		System.out.println(" ok ouverture de la session 2");
 		windows_session(user);
 		System.out.println(" ok ouverture de la session 3");
-		con2=con;
 		try {
-			Statement statement=con2.createStatement();
+			Statement statement=getCon2().createStatement();
 			ResultSet rs=statement.executeQuery("SELECT message FROM Historique WHERE user_dest =" + this.user);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -108,6 +107,14 @@ public class Session implements ActionListener, ListSelectionListener{
 	
 	public int get_port_dest() {
 		return this.port_dest;
+	}
+	
+	public JList get_list() {
+		return this.list_conv;
+	}
+	
+	public DefaultListModel get_list_model() {
+		return this.listmodel;
 	}
 
 	public InetAddress get_addr_dest() {
@@ -191,7 +198,7 @@ public class Session implements ActionListener, ListSelectionListener{
 			SimpleDateFormat date=new SimpleDateFormat("h:mm a");
 			
 			
-			listmodel.addElement(MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                              " + date.format(new Date()));
+			listmodel.addElement(MySessions.get_name() + " : " + session_messageTextField.getText() + "                              " + date.format(new Date()));
 			list_conv.setModel(listmodel);
 
 			/*
@@ -205,8 +212,8 @@ public class Session implements ActionListener, ListSelectionListener{
 			
 			
 			try {
-				Statement statement=con2.createStatement();
-				ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + user + "," + MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()) + ")" );
+				Statement statement=getCon2().createStatement();
+				ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + user + "," + MySessions.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()) + ")" );
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -231,7 +238,7 @@ public class Session implements ActionListener, ListSelectionListener{
 	    	System.out.println("msg send "  );
 	    	SimpleDateFormat date=new SimpleDateFormat("h:mm a");
 	    	
-	    	listmodel.addElement(MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()));
+	    	listmodel.addElement(MySessions.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()));
 			list_conv.setModel(listmodel);
 			
 			/*
@@ -244,8 +251,8 @@ public class Session implements ActionListener, ListSelectionListener{
 			session_messageTextField.setText("");
 	
 			try {
-				Statement statement=con2.createStatement();
-				ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + user + "," + MySessions.MyLogin.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()) + ")" );
+				Statement statement=getCon2().createStatement();
+				ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + user + "," + MySessions.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()) + ")" );
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -259,5 +266,9 @@ public class Session implements ActionListener, ListSelectionListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+	public Connection getCon2() {
+		return con2;
+	}
+
 }

@@ -5,14 +5,14 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 public class ClientUDP extends Thread{
-	byte[] buffer;
-	DatagramSocket dgramSocket;
-	int port;
-	String message;
-	int addr;	//0= pas denvoie daddr, 1= envoie daddr
-	InetAddress address;
-	InetAddress Myaddress;
-	String addresse;
+	private byte[] buffer;
+	private DatagramSocket dgramSocket;
+	private int port;
+	private String message;
+	private	int addr;	//0= pas denvoie daddr, 1= envoie daddr
+	private	InetAddress address;
+	private	InetAddress Myaddress;
+	private	String addresse;
 	
 	
 	public ClientUDP(int num_port, String msg_to_send) {		//	UTILISé pour broadcast

@@ -17,8 +17,9 @@ public class ServerTCP extends Thread{
 	private String input;
 	private int last_num_port;
 	private String[] tab;
-	int i = 0;
-	int flag=1;
+	private int i = 0;
+	private int flag;
+	private	ServerSocket servSocket;
 	
 	
 	
@@ -29,6 +30,7 @@ public class ServerTCP extends Thread{
 		tab=new String[2];
 		port=num_port;
 		MySessionsUsed=sessions;
+		flag=1;
 	}
 	
 	
@@ -36,10 +38,10 @@ public class ServerTCP extends Thread{
 		super();
 		port=num_port;
 		MySessionUsed=session;
+		flag=1;
 	}
 	
 	public void run() {
-		ServerSocket servSocket;
 		try {
 			servSocket = new ServerSocket(port);
 			while(flag==1){
@@ -98,12 +100,12 @@ public class ServerTCP extends Thread{
 					System.out.println("pq tu fermes mon gar t fou 22222");
 					SimpleDateFormat date=new SimpleDateFormat("h:mm a");
 					//afficher le message sur la bonne session
-					MySessionUsed.listmodel.addElement(MySessionUsed.get_user_dest() +  " : " + input + "  	                "  + date.format(new Date()) );
-					MySessionUsed.list_conv.setModel(MySessionUsed.listmodel);
+					MySessionUsed.get_list_model().addElement(MySessionUsed.get_user_dest() +  " : " + input + "  	                "  + date.format(new Date()) );
+					MySessionUsed.get_list().setModel(MySessionUsed.get_list_model());
 					
 					
 					try {
-						Statement statement=MySessionUsed.con2.createStatement();
+						Statement statement=MySessionUsed.getCon2().createStatement();
 						ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + MySessionUsed.get_user_dest() + "," + MySessionUsed.get_user_dest() + " : " + input  + "                         " + date.format(new Date()) + ")" );
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -115,6 +117,16 @@ public class ServerTCP extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+	}
+	
+	public void close_socketserver() {
+		flag=0;
+		try {
+			servSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 

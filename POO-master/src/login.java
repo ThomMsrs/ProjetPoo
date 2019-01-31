@@ -26,31 +26,31 @@ import com.sun.glass.events.KeyEvent;
 public class login implements ActionListener, ListSelectionListener {					
 		
 		private String nom;
-		List_user MyList_user;
-		Sessions MySessions;
+		private List_user MyList_user;
+		private Sessions MySessions;
 		private InetAddress MyAddress;	//Mon adresse en inetaddress
 		private String Address;			//Mon adresse en String
-		Agent MyAgent;
+		private Agent MyAgent;
 		private int bouttonok=0;
 		
-		JButton Set_nameButton;
-		JTextField Set_nameTextField;
-		JPanel pane2;
-		public JLabel Set_nameLabel;
-		JList list;
-		DefaultListModel listmodel;
-		JButton RenameButton;
-		JLabel PrintName;
-		JPanel pane3;
-		JButton DisconnectButton;
+		private JButton Set_nameButton;
+		private JTextField Set_nameTextField;
+		private JPanel pane2;
+		private JLabel Set_nameLabel;
+		private	JList list;
+		private DefaultListModel listmodel;
+		private	JButton RenameButton;
+		private	JLabel PrintName;
+		private	JPanel pane3;
+		private	JButton DisconnectButton;
 		
 		
-		public JLabel Set_renameLabel;
-		JPanel pane4;
-		JButton Set_renameButton;
-		JTextField Set_renameTextField;
+		private JLabel Set_renameLabel;
+		private	JPanel pane4;
+		private	JButton Set_renameButton;
+		private	JTextField Set_renameTextField;
 		
-		JPanel pane7;
+		private		JPanel pane7;
 		
 		
 		public login(Agent MyAgent, int mode_connexion) {
@@ -102,7 +102,7 @@ public class login implements ActionListener, ListSelectionListener {
 			listmodel.set(listmodel.indexOf(this.nom),nom);
 			list.setModel(listmodel);
 			
-			//MyList_user.send_new_name(nom, this.nom);
+			MyList_user.send_new_name(nom, this.nom);
 			this.nom=nom;	
 		}
 		
@@ -323,7 +323,7 @@ public class login implements ActionListener, ListSelectionListener {
 		public void valueChanged(ListSelectionEvent e) {
 			if(MySessions.get_flag_ask_session()==0) {
 				MySessions.windows_ask_session();
-				MySessions.ask_sessionLabel.setText("demarrer session avec " + list.getSelectedValue());		// dans session faire un getter
+				MySessions.getAsk_sessionLabel().setText("demarrer session avec " + list.getSelectedValue());		// dans session faire un getter
 			}	
 		}
 		
@@ -347,8 +347,21 @@ public class login implements ActionListener, ListSelectionListener {
 	    	list.setModel(listmodel);
 		}
     
+    public InetAddress get_addr(String user_dest) {
+    	return MyList_user.get_addr(user_dest);
+    }
     
+    public JPanel get_pane7() {
+    	return this.pane7;
+    }
+    
+    public JList get_list() {
+    	return this.list;
+    }
 	
+    public String get_user(int i) {
+    	return MyList_user.get_user(i);
+    }
 	
 }
 
