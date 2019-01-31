@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS Messages;
+CREATE TABLE Messages (
+	id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	User_Dest varchar(10),
+	Message varchar(400),
+	PRIMARY KEY (id)
+) ENGINE = InnoDB;
