@@ -217,7 +217,7 @@ public class Session implements ActionListener, ListSelectionListener{
 			envoie_de_message(session_messageTextField.getText());
 			session_messageTextField.setText("");
 			
-			
+			/*
 			try {
 				Statement statement=getCon2().createStatement();
 				ResultSet rs=statement.executeQuery("INSERT INTO Historique VALUES (" + user + "," + MySessions.get_name() + " : " + session_messageTextField.getText() + "                         " + date.format(new Date()) + ")" );
@@ -225,7 +225,7 @@ public class Session implements ActionListener, ListSelectionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+			*/
 		}	
 	}
 	

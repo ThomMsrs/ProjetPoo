@@ -57,15 +57,31 @@ public class List_user {
 	public void maj_list_user_disconnection(String name) {
 		nbr_user--;
 		int i=0;
+		
+		int q=0;
+		while(list_user[q]!=null) {
+			System.out.println("user num " + q + ": " +list_user[q]);
+			q++;
+		}
+		
 		while(list_user[i].equals(name)!=true) {
 			i++;
 		}
+		
+		System.out.println("utilisateur :: " + list_user[i]);
 		int j=i;
 		int k=j+1;
-		while(list_user[k]!=null) {
+		do{
 			list_user[j]=list_user[k];
 			j++;
 			k++;
+		}
+		while(list_user[k]!=null);
+		
+		q=0;
+		while(list_user[q]!=null) {
+			System.out.println("user num " + q + ": " +list_user[q]);
+			q++;
 		}
 		MyLogin.maj_display_list();
 	}
